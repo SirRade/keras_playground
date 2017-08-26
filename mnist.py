@@ -9,10 +9,25 @@ from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 # Utils
 from keras.utils import np_utils
-#Data
+# Data
 from keras.datasets import mnist
 
+from keras import backend as K
+
 from matplotlib import pyplot as plt
+
+# Ignore tensorflow CPU warnings as we are using the GPU build anyways
+# See https://github.com/tensorflow/tensorflow/issues/7778
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
+# Workaround for crash
+# See https://github.com/tensorflow/tensorflow/issues/6698
+import tensorflow as tf
+config = tf.ConfigProto()
+config.gpu_options.allow_growth = True
+sess = tf.Session(config=config)
+K.set_session(sess)
+
 
 if __name__ == '__main__':
     np.random.seed(123) 
@@ -58,7 +73,7 @@ if __name__ == '__main__':
     # Define the model 	
     model = Sequential()
     img_rows = img_cols = 28
-    if keras.backend.image_data_format() == 'channels_first':
+    if K.image_data_format() == 'channels_first':
         input_shape = (1, img_rows, img_cols)
     else:
         input_shape = (img_rows, img_cols, 1)
