@@ -104,3 +104,6 @@ ENV/
 # IDE
 .idea
 .vscode
+
+# Trained models
+*.h5
