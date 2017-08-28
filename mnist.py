@@ -13,6 +13,7 @@ from keras.datasets import mnist
 
 from keras import backend as K
 
+
 from matplotlib import pyplot as plt
 
 # Ignore tensorflow CPU warnings as we are using the GPU build anyways
@@ -20,9 +21,9 @@ from matplotlib import pyplot as plt
 import os
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+import tensorflow as tf
 # Workaround for crash
 # See https://github.com/tensorflow/tensorflow/issues/6698
-import tensorflow as tf
 
 config = tf.ConfigProto()
 config.gpu_options.allow_growth = True
@@ -39,10 +40,17 @@ if __name__ == '__main__':
     print(X_train.shape)
 
     # Plot first sample
+    for i in range(9):
+        plt.subplot(3, 3, i + 1)
+        plt.imshow(X_train[i], cmap='gray', interpolation='none')
+        plt.title("Class {}".format(y_train[i]))
     try:
-        plt.imshow(X_train[0])
+        plt.show()
     except Exception:
         print('Failed to display plot')
+
+
+
 
     # Reshape to a depth of 1, as MNIST is not RGB
     X_train = X_train.reshape(X_train.shape[0], 28, 28, 1)
